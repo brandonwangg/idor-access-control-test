@@ -25,3 +25,23 @@ Use this mode to detect whether private API endpoints are accessible without aut
 ```bash
 python idor_noauth_probe.py
 ```
+
+#### Example Output
+
+Below is an example of what the unauthenticated probe looks like when an API **correctly blocks** access:
+— Probing unauthenticated access to 3 IDs across 2 endpoints —
+
+[✅  Not exposed] /api/Users/12345 → 401 (blocked)
+[✅  Not exposed] /api/Users/12346 → 401 (blocked)
+[✅  Not exposed] /api/Users/12347 → 401 (blocked)
+
+[✅  Not exposed] /api/BasketItems/12345 → 401 (blocked)
+[✅  Not exposed] /api/BasketItems/12346 → 401 (blocked)
+[✅  Not exposed] /api/BasketItems/12347 → 401 (blocked)
+
+If instead you ever see:
+
+[⚠️  POSSIBLE EXPOSURE] /api/Orders/12345 → 200
+
+…it means the API is **returning another user's data without verifying authorization** —  
+which indicates a **potential IDOR vulnerability**.
